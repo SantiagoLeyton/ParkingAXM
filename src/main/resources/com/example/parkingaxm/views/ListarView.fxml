@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.parkingaxm.views.ListarView"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="com.example.parkingaxm.controllers.ListarController">
 
-</AnchorPane>
+    <top>
+        <Label text="Vehículos Registrados" BorderPane.alignment="CENTER" />
+    </top>
+
+    <center>
+        <TableView fx:id="tablaVehiculos">
+            <columns>
+                <TableColumn text="Placa" fx:id="colPlaca" />
+                <TableColumn text="Hora Entrada" fx:id="colEntrada" />
+                <TableColumn text="Hora Salida" fx:id="colSalida" />
+                <TableColumn text="Total" fx:id="colTotal" />
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

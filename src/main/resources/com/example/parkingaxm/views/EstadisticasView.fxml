@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.parkingaxm.views.EstadisticasView"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.parkingaxm.controllers.EstadisticasController">
 
-</AnchorPane>
+    <Label text="Estadísticas del Parqueadero" />
+
+    <Label fx:id="lblDia" text="Hoy: 0 vehículos" />
+    <Label fx:id="lblSemana" text="Esta semana: 0 vehículos" />
+    <Label fx:id="lblMes" text="Este mes: 0 vehículos" />
+    <Label fx:id="lblDinero" text="Total generado: $0" />
+
+</VBox>

@@ -1,4 +1,6 @@
 package com.example.parkingaxm.enums;
 
-public class Rol {
+public enum Rol {
+    ADMIN,
+    OPERARIO
 }
