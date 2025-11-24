@@ -16,7 +16,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,12 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Servicio principal del módulo de registro.
- * Se encarga de:
- *  - Simular la lectura de una placa y tipo de vehículo (usando OCRService).
- *  - Validar la capacidad del parqueadero (espacios.json).
- *  - Descontar un espacio disponible al registrar la entrada.
- *  - Persistir el registro en registros.json.
+ * Servicio para manejar la lógica del parqueadero:
+ *  - Registro de entrada de vehículos (usando OCR simulado).
+ *  - Validación de capacidad (espacios.json).
+ *  - Persistencia de registros (registros.json).
  */
 public class ParqueaderoService {
 
@@ -49,39 +46,47 @@ public class ParqueaderoService {
     }
 
     /**
-     * Registra la entrada de un vehículo al parqueadero.
-     *
-     * @return Registro creado y persistido.
+     * Registra la entrada de un vehículo:
+     *  - Lee placa y tipo por OCR simulado.
+     *  - Verifica que haya espacios disponibles.
+     *  - Incrementa ocupados en espacios.json.
+     *  - Crea un Registro con entrada = ahora, salida y total en null.
+     *  - Guarda el registro en registros.json.
      */
     public Registro registrarEntrada() {
-        // 1. Simulación OCR (placa y tipo de vehículo)
+        // 1. Lectura simulada de placa y tipo de vehículo
         String placa = OCRService.leerPlacaSimulada();
         TipoVehiculo tipoVehiculo = OCRService.detectarTipoVehiculoSimulado();
 
-        if (placa == null || placa.isBlank()) {
+        if (placa == null || placa.trim().isEmpty()) {
             throw new IllegalStateException("No se pudo leer la placa del vehículo.");
         }
         if (tipoVehiculo == null) {
             throw new IllegalStateException("No se pudo determinar el tipo de vehículo.");
         }
 
-        // 2. Validar capacidad (espacios.json)
+        // 2. Validar capacidad del parqueadero
         EspaciosData espaciosData = leerEspacios();
         int disponibles = espaciosData.totalEspacios - espaciosData.ocupados;
         if (disponibles <= 0) {
             throw new IllegalStateException("No hay espacios disponibles en el parqueadero.");
         }
 
-        // 3. Descontar un espacio (incrementar ocupados) y guardar cambios
+        // 3. Actualizar espacios ocupados
         espaciosData.ocupados = espaciosData.ocupados + 1;
         guardarEspacios(espaciosData);
 
-        // 4. Crear el vehículo y el registro
+        // 4. Crear vehículo y registro
         Vehiculo vehiculo = new Vehiculo(placa.trim().toUpperCase(), tipoVehiculo);
         LocalDateTime ahora = LocalDateTime.now();
-        Registro registro = new Registro(vehiculo.getPlaca(), vehiculo.getTipoVehiculo(), ahora);
 
-        // 5. Persistir el registro en registros.json
+        Registro registro = new Registro(
+                vehiculo.getPlaca(),
+                vehiculo.getTipoVehiculo(),
+                ahora
+        );
+
+        // 5. Persistir en registros.json
         List<Registro> registros = leerRegistros();
         registros.add(registro);
         guardarRegistros(registros);
@@ -89,12 +94,24 @@ public class ParqueaderoService {
         return registro;
     }
 
-    /**
-     * Lee los datos de espacios disponibles desde espacios.json.
-     */
+    // ---------- Manejo de espacios.json ----------
+
+    private void guardarEspacios(EspaciosData data) {
+        try {
+            if (ESPACIOS_PATH.getParent() != null && !Files.exists(ESPACIOS_PATH.getParent())) {
+                Files.createDirectories(ESPACIOS_PATH.getParent());
+            }
+            try (Writer writer = Files.newBufferedWriter(ESPACIOS_PATH)) {
+                gson.toJson(data, writer);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al guardar espacios.json", e);
+        }
+    }
+
     private EspaciosData leerEspacios() {
         if (!Files.exists(ESPACIOS_PATH)) {
-            // Archivo inexistente: se crea con valores por defecto
+            // Si el archivo no existe, se crea uno por defecto
             EspaciosData data = new EspaciosData();
             data.totalEspacios = 40;
             data.ocupados = 0;
@@ -115,42 +132,25 @@ public class ParqueaderoService {
         }
     }
 
-    /**
-     * Guarda el estado de los espacios de parqueo en espacios.json.
-     */
-    private void guardarEspacios(EspaciosData data) {
-        try {
-            if (ESPACIOS_PATH.getParent() != null && !Files.exists(ESPACIOS_PATH.getParent())) {
-                Files.createDirectories(ESPACIOS_PATH.getParent());
-            }
-            try (Writer writer = Files.newBufferedWriter(ESPACIOS_PATH)) {
-                gson.toJson(data, writer);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Error al guardar espacios.json", e);
-        }
-    }
+    // ---------- Manejo de registros.json ----------
 
-    /**
-     * Lee la lista de registros desde registros.json.
-     */
     private List<Registro> leerRegistros() {
         if (!Files.exists(REGISTROS_PATH)) {
             return new ArrayList<>();
         }
 
         try (Reader reader = Files.newBufferedReader(REGISTROS_PATH)) {
-            Type listType = new TypeToken<List<Registro>>() {}.getType();
+            java.lang.reflect.Type listType = new TypeToken<List<Registro>>() {}.getType();
             List<Registro> registros = gson.fromJson(reader, listType);
-            return (registros != null) ? registros : new ArrayList<>();
+            if (registros == null) {
+                registros = new ArrayList<>();
+            }
+            return registros;
         } catch (IOException e) {
             throw new RuntimeException("Error al leer registros.json", e);
         }
     }
 
-    /**
-     * Guarda la lista completa de registros en registros.json.
-     */
     private void guardarRegistros(List<Registro> registros) {
         try {
             if (REGISTROS_PATH.getParent() != null && !Files.exists(REGISTROS_PATH.getParent())) {
@@ -164,8 +164,10 @@ public class ParqueaderoService {
         }
     }
 
+    // ---------- Clases internas auxiliares ----------
+
     /**
-     * Clase interna para mapear el JSON de espacios.json.
+     * Representa la estructura del archivo espacios.json:
      * {
      *   "totalEspacios": 40,
      *   "ocupados": 0
@@ -177,7 +179,8 @@ public class ParqueaderoService {
     }
 
     /**
-     * Adaptador para serializar/deserializar LocalDateTime como String ISO-8601.
+     * Adaptador para poder guardar LocalDateTime en JSON como String ISO
+     * y volverlo a leer correctamente.
      */
     private static class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
 
