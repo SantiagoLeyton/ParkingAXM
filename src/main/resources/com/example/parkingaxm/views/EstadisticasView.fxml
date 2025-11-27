@@ -1,17 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.EstadisticasController">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.parkingaxm.controllers.EstadisticasController">
 
-    <Label text="Estadísticas del Parqueadero" style="-fx-font-size: 18px;" />
+    <!-- TOP: Filtros -->
+    <top>
+        <HBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
 
-    <Label fx:id="lblDia" text="Hoy:" />
-    <Label fx:id="lblSemana" text="Semana:" />
-    <Label fx:id="lblMes" text="Mes:" />
-    <Label fx:id="lblDinero" text="Total:" />
+            <Label text="Desde:"/>
+            <DatePicker fx:id="dpDesde"/>
 
-</VBox>
+            <Label text="Hasta:"/>
+            <DatePicker fx:id="dpHasta"/>
+
+            <Label text="Tipo:"/>
+            <ComboBox fx:id="cbTipo"/>
+
+            <Button text="Aplicar filtros" onAction="#onAplicarFiltros"/>
+
+            <Button text="Exportar PDF" onAction="#onExportarPdf"/>
+        </HBox>
+    </top>
+
+    <!-- CENTER: TabPane con resumen, gráficas y heatmap -->
+    <center>
+        <TabPane fx:id="tabPane">
+
+            <!-- Resumen -->
+            <tabs>
+                <Tab text="Resumen">
+                    <ScrollPane fitToWidth="true">
+                        <VBox spacing="15" alignment="CENTER">
+                            <padding>
+                                <Insets top="10" bottom="10" left="10" right="10"/>
+                            </padding>
+
+                            <Label text="Resumen de estadísticas"
+                                   style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+                            <HBox spacing="40" alignment="CENTER">
+                                <VBox alignment="CENTER">
+                                    <Label text="Total Vehículos"/>
+                                    <Label fx:id="lblTotal" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                </VBox>
+
+                                <VBox alignment="CENTER">
+                                    <Label text="Carros"/>
+                                    <Label fx:id="lblCarros" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                </VBox>
+
+                                <VBox alignment="CENTER">
+                                    <Label text="Motos"/>
+                                    <Label fx:id="lblMotos" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                </VBox>
+                            </HBox>
+
+                            <Separator/>
+
+                            <GridPane hgap="20" vgap="10">
+                                <columnConstraints>
+                                    <ColumnConstraints halignment="RIGHT"/>
+                                    <ColumnConstraints halignment="LEFT"/>
+                                </columnConstraints>
+
+                                <Label text="Vehículos hoy:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblHoy" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                <Label text="Vehículos semana:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblSemana" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Vehículos mes:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblMes" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                                <Label text="Dinero hoy:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblDineroHoy" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                                <Label text="Dinero semana:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblDineroSemana" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                                <Label text="Dinero mes:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblDineroMes" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                                <Label text="Dinero total:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblDineroTotal" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                                <Label text="Permanencia promedio:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblPermanenciaProm" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                                <Label text="Permanencia máxima:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                                <Label fx:id="lblPermanenciaMax" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                            </GridPane>
+                        </VBox>
+                    </ScrollPane>
+                </Tab>
+
+                <!-- Gráficas -->
+                <Tab text="Gráficas">
+                    <VBox spacing="15">
+                        <padding>
+                            <Insets top="10" bottom="10" left="10" right="10"/>
+                        </padding>
+
+                        <HBox spacing="15">
+                            <PieChart fx:id="pieTipos" title="Carros vs Motos"/>
+                            <BarChart fx:id="barVehiculosDia" title="Vehículos por día">
+                                <xAxis>
+                                    <CategoryAxis label="Fecha"/>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Cantidad"/>
+                                </yAxis>
+                            </BarChart>
+                        </HBox>
+
+                        <BarChart fx:id="barDineroDia" title="Recaudo por día">
+                            <xAxis>
+                                <CategoryAxis label="Fecha"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Dinero"/>
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
+                </Tab>
+
+                <!-- Heatmap -->
+                <Tab text="Mapa de calor">
+                    <ScrollPane fitToWidth="true" fitToHeight="true">
+                        <GridPane fx:id="gridHeatmap" hgap="2" vgap="2" />
+                    </ScrollPane>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
