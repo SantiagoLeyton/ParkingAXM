@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "placa": "ABC123",
+    "tipoVehiculo": "CARRO",
+    "entrada": "2025-01-21T10:15:00",
+    "salida": "2025-01-21T11:40:00",
+    "total": 4300
+  },
+  {
+    "placa": "XYZ987",
+    "tipoVehiculo": "MOTO",
+    "entrada": "2025-01-21T09:30:00",
+    "salida": "2025-01-21T12:00:00",
+    "total": 5200
+  }
+]

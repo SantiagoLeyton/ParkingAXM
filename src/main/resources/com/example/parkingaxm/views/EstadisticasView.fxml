@@ -7,11 +7,11 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.parkingaxm.controllers.EstadisticasController">
 
-    <Label text="Estadísticas del Parqueadero" />
+    <Label text="Estadísticas del Parqueadero" style="-fx-font-size: 18px;" />
 
-    <Label fx:id="lblDia" text="Hoy: 0 vehículos" />
-    <Label fx:id="lblSemana" text="Esta semana: 0 vehículos" />
-    <Label fx:id="lblMes" text="Este mes: 0 vehículos" />
-    <Label fx:id="lblDinero" text="Total generado: $0" />
+    <Label fx:id="lblDia" text="Hoy:" />
+    <Label fx:id="lblSemana" text="Semana:" />
+    <Label fx:id="lblMes" text="Mes:" />
+    <Label fx:id="lblDinero" text="Total:" />
 
 </VBox>
