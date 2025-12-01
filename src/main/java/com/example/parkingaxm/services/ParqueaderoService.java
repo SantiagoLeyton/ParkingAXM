@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Servicio para manejar la lógica del parqueadero:
- *  - Registro de entrada de vehículos (usando OCR simulado).
+ *  - Registro de entrada de vehículos.
  *  - Validación de capacidad (espacios.json).
  *  - Persistencia de registros (registros.json).
  */
@@ -46,23 +46,30 @@ public class ParqueaderoService {
     }
 
     /**
-     * Registra la entrada de un vehículo:
-     *  - Lee placa y tipo por OCR simulado.
+     * Registro automático usando datos simulados del OCR.
+     * Se deja por compatibilidad, pero la lógica real está en registrarEntradaManual.
+     */
+    public Registro registrarEntrada() {
+        String placa = OCRService.leerPlacaSimulada();
+        TipoVehiculo tipoVehiculo = OCRService.detectarTipoVehiculoSimulado();
+        return registrarEntradaManual(placa, tipoVehiculo);
+    }
+
+    /**
+     * Registra la entrada de un vehículo usando los datos ingresados manualmente.
+     *  - Valida placa y tipo.
      *  - Verifica que haya espacios disponibles.
      *  - Incrementa ocupados en espacios.json.
      *  - Crea un Registro con entrada = ahora, salida y total en null.
      *  - Guarda el registro en registros.json.
      */
-    public Registro registrarEntrada() {
-        // 1. Lectura simulada de placa y tipo de vehículo
-        String placa = OCRService.leerPlacaSimulada();
-        TipoVehiculo tipoVehiculo = OCRService.detectarTipoVehiculoSimulado();
-
+    public Registro registrarEntradaManual(String placa, TipoVehiculo tipoVehiculo) {
+        // 1. Validar datos recibidos
         if (placa == null || placa.trim().isEmpty()) {
-            throw new IllegalStateException("No se pudo leer la placa del vehículo.");
+            throw new IllegalStateException("La placa no puede estar vacía.");
         }
         if (tipoVehiculo == null) {
-            throw new IllegalStateException("No se pudo determinar el tipo de vehículo.");
+            throw new IllegalStateException("Debes seleccionar el tipo de vehículo.");
         }
 
         // 2. Validar capacidad del parqueadero
@@ -163,40 +170,38 @@ public class ParqueaderoService {
             throw new RuntimeException("Error al guardar registros.json", e);
         }
     }
+}
 
-    // ---------- Clases internas auxiliares ----------
+/**
+ * Representa la estructura del archivo espacios.json:
+ * {
+ *   "totalEspacios": 40,
+ *   "ocupados": 0
+ * }
+ */
+class EspaciosData {
+    int totalEspacios;
+    int ocupados;
+}
 
-    /**
-     * Representa la estructura del archivo espacios.json:
-     * {
-     *   "totalEspacios": 40,
-     *   "ocupados": 0
-     * }
-     */
-    private static class EspaciosData {
-        int totalEspacios;
-        int ocupados;
+/**
+ * Adaptador para poder guardar LocalDateTime en JSON como String ISO
+ * y volverlo a leer correctamente.
+ */
+class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
+
+    @Override
+    public JsonElement serialize(LocalDateTime src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+        return src == null ? null : context.serialize(src.toString());
     }
 
-    /**
-     * Adaptador para poder guardar LocalDateTime en JSON como String ISO
-     * y volverlo a leer correctamente.
-     */
-    private static class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
-
-        @Override
-        public JsonElement serialize(LocalDateTime src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
-            return src == null ? null : context.serialize(src.toString());
+    @Override
+    public LocalDateTime deserialize(JsonElement json, java.lang.reflect.Type typeOfT, JsonDeserializationContext context)
+            throws JsonParseException {
+        if (json == null || json.isJsonNull()) {
+            return null;
         }
-
-        @Override
-        public LocalDateTime deserialize(JsonElement json, java.lang.reflect.Type typeOfT, JsonDeserializationContext context)
-                throws JsonParseException {
-            if (json == null || json.isJsonNull()) {
-                return null;
-            }
-            String value = json.getAsString();
-            return LocalDateTime.parse(value);
-        }
+        String value = json.getAsString();
+        return LocalDateTime.parse(value);
     }
 }
