@@ -1,19 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="15" alignment="CENTER" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.MenuController">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.parkingaxm.controllers.MenuController"
+            styleClass="screen-root">
 
-    <Label text="Menú Administrador" />
+    <center>
+        <VBox alignment="CENTER" spacing="16" maxWidth="400"
+              BorderPane.alignment="CENTER"
+              styleClass="card">
 
-    <Button text="Registrar Vehículo" fx:id="btnRegistrar" onAction="#onRegistrarVehiculo"/>
-    <Button text="Listar Vehículos" fx:id="btnListar" onAction="#onListarVehiculos"/>
-    <Button text="Cobro" fx:id="btnCobro" onAction="#onCobro"/>
-    <Button text="Estadísticas" fx:id="btnEstadisticas" onAction="#onEstadisticas"/>
-    <Button text="Crear Usuario" fx:id="btnCrearUsuario" onAction="#onCrearUsuario"/>
-    <Button text="Cerrar Sesión" fx:id="btnSalir" onAction="#onSalir"/>
+            <Label text="Panel Administrador" styleClass="app-title"/>
 
-</VBox>
+            <Label text="Gestión completa del parqueadero"
+                   styleClass="section-title"/>
+
+            <VBox spacing="8" prefWidth="Infinity">
+                <Button text="Registrar Vehículo"
+                        onAction="#onRegistrarVehiculo"
+                        maxWidth="Infinity"
+                        styleClass="primary-button"/>
+
+                <Button text="Listar Vehículos"
+                        onAction="#onListarVehiculos"
+                        maxWidth="Infinity"/>
+
+                <Button text="Cobro"
+                        onAction="#onCobro"
+                        maxWidth="Infinity"/>
+
+                <Button text="Estadísticas"
+                        onAction="#onEstadisticas"
+                        maxWidth="Infinity"/>
+
+                <Button text="Gestión de Usuarios"
+                        onAction="#onCrearUsuario"
+                        maxWidth="Infinity"/>
+            </VBox>
+
+            <Button text="Cerrar sesión"
+                    onAction="#onSalir"
+                    maxWidth="Infinity"
+                    styleClass="danger-button"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

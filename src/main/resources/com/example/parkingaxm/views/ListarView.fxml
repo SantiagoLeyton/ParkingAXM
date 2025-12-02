@@ -5,30 +5,24 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.parkingaxm.controllers.ListarController">
+            fx:controller="com.example.parkingaxm.controllers.ListarController"
+            styleClass="screen-root">
 
     <top>
-        <Label text="Vehículos Registrados"
-               style="-fx-font-size: 18px; -fx-font-weight: bold;"
+        <Label text="Vehículos registrados"
+               styleClass="header-label"
                BorderPane.alignment="CENTER" />
     </top>
 
     <center>
-        <TableView fx:id="tablaVehiculos">
+        <TableView fx:id="tablaVehiculos" styleClass="table-view">
             <columns>
-                <TableColumn text="Placa" fx:id="colPlaca" prefWidth="100" />
-                <TableColumn text="Tipo" fx:id="colTipo" prefWidth="80" />
-                <TableColumn text="Hora Entrada" fx:id="colEntrada" prefWidth="170" />
-                <TableColumn text="Hora Salida" fx:id="colSalida" prefWidth="170" />
-                <TableColumn text="Total" fx:id="colTotal" prefWidth="100" />
+                <TableColumn text="Placa" fx:id="colPlaca" prefWidth="120"/>
+                <TableColumn text="Hora entrada" fx:id="colEntrada" prefWidth="200"/>
+                <TableColumn text="Hora salida" fx:id="colSalida" prefWidth="200"/>
+                <TableColumn text="Total" fx:id="colTotal" prefWidth="140"/>
             </columns>
         </TableView>
     </center>
-
-    <bottom>
-        <Button text="Volver al menú"
-                onAction="#onVolver"
-                BorderPane.alignment="CENTER" />
-    </bottom>
 
 </BorderPane>

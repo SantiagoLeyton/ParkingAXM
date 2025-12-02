@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="15" alignment="CENTER" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.MenuController">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.parkingaxm.controllers.MenuController"
+            styleClass="screen-root">
 
-    <Label text="Menú Operario" />
+    <center>
+        <VBox alignment="CENTER" spacing="16" maxWidth="400"
+              BorderPane.alignment="CENTER"
+              styleClass="card">
 
-    <Button text="Registrar Vehículo" fx:id="btnRegistrar" onAction="#onRegistrarOperario"/>
-    <Button text="Listar Vehículos" fx:id="btnListar" onAction="#onListarOperario"/>
-    <Button text="Cobro" fx:id="btnCobro" onAction="#onCobroOperario"/>
-    <Button text="Cerrar Sesión" fx:id="btnSalir" onAction="#onSalirOperario"/>
+            <Label text="Panel Operario" styleClass="app-title"/>
 
-</VBox>
+            <Label text="Operaciones diarias de parqueadero"
+                   styleClass="section-title"/>
+
+            <VBox spacing="8" prefWidth="Infinity">
+                <Button text="Registrar Vehículo"
+                        fx:id="btnRegistrar"
+                        onAction="#onRegistrarOperario"
+                        maxWidth="Infinity"
+                        styleClass="primary-button"/>
+
+                <Button text="Listar Vehículos"
+                        fx:id="btnListar"
+                        onAction="#onListarOperario"
+                        maxWidth="Infinity"/>
+
+                <Button text="Cobro"
+                        fx:id="btnCobro"
+                        onAction="#onCobroOperario"
+                        maxWidth="Infinity"/>
+            </VBox>
+
+            <Button text="Cerrar sesión"
+                    fx:id="btnSalir"
+                    onAction="#onSalirOperario"
+                    maxWidth="Infinity"
+                    styleClass="danger-button"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

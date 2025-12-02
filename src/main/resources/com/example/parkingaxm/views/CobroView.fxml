@@ -1,20 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.CobroController">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.parkingaxm.controllers.CobroController"
+            styleClass="screen-root">
 
-    <Label text="Cobro de Parqueadero" />
+    <center>
+        <VBox alignment="CENTER" spacing="16" maxWidth="420"
+              BorderPane.alignment="CENTER"
+              styleClass="card">
 
-    <TextField fx:id="txtPlaca" promptText="Placa del vehículo" />
-    <Button text="Buscar" fx:id="btnBuscar" />
+            <Label text="Cobro de Parqueadero" styleClass="app-title"/>
 
-    <Label text="Horas: " fx:id="lblHoras" />
-    <Label text="Total a pagar: " fx:id="lblTotal" />
+            <VBox spacing="10" prefWidth="Infinity">
+                <TextField fx:id="txtPlaca"
+                           promptText="Placa del vehículo (ej: ABC123)"/>
 
-    <Button text="Confirmar Pago" fx:id="btnConfirmar" />
+                <Button text="Buscar"
+                        fx:id="btnBuscar"
+                        maxWidth="Infinity"
+                        styleClass="primary-button"/>
+            </VBox>
 
-</VBox>
+            <Separator/>
+
+            <VBox spacing="6" prefWidth="Infinity">
+                <Label fx:id="lblHoras" text="Horas: -" />
+                <Label fx:id="lblTotal" text="Total a pagar: -" />
+            </VBox>
+
+            <Button text="Confirmar pago"
+                    fx:id="btnConfirmar"
+                    maxWidth="Infinity"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

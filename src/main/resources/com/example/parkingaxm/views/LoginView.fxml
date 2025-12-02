@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.LoginViewController">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.parkingaxm.controllers.LoginViewController"
+            styleClass="screen-root">
 
-    <Label text="Iniciar Sesión" />
+    <center>
+        <VBox alignment="CENTER" spacing="20" maxWidth="360"
+              BorderPane.alignment="CENTER"
+              styleClass="card">
 
-    <TextField fx:id="txtUsuario" promptText="Usuario" />
-    <PasswordField fx:id="txtPassword" promptText="Contraseña" />
+            <VBox spacing="4" styleClass="card-header">
+                <Label text="ParkingAXM" styleClass="app-title"/>
+                <Label text="Inicia sesión para continuar"
+                       styleClass="section-title"/>
+            </VBox>
 
-    <Button text="Ingresar" fx:id="btnLogin" onAction="#onLogin" />
+            <VBox spacing="10" prefWidth="Infinity">
+                <TextField fx:id="txtUsuario" promptText="Usuario" />
+                <PasswordField fx:id="txtPassword" promptText="Contraseña" />
+            </VBox>
 
-</VBox>
+            <Button text="Ingresar"
+                    fx:id="btnLogin"
+                    onAction="#onLogin"
+                    maxWidth="Infinity"
+                    styleClass="primary-button"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>
