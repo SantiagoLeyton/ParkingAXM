@@ -9,9 +9,9 @@
 
     <Label text="Menú Operario" />
 
-    <Button text="Registrar Vehículo" fx:id="btnRegistrar" />
-    <Button text="Listar Vehículos" fx:id="btnListar" />
-    <Button text="Cobro" fx:id="btnCobro" />
-    <Button text="Cerrar Sesión" fx:id="btnSalir" />
+    <Button text="Registrar Vehículo" fx:id="btnRegistrar" onAction="#onRegistrarOperario"/>
+    <Button text="Listar Vehículos" fx:id="btnListar" onAction="#onListarOperario"/>
+    <Button text="Cobro" fx:id="btnCobro" onAction="#onCobroOperario"/>
+    <Button text="Cerrar Sesión" fx:id="btnSalir" onAction="#onSalirOperario"/>
 
 </VBox>

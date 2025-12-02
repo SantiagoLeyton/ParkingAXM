@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.parkingaxm.controllers.UsuarioCrudController">
+
+    <!-- Título arriba -->
+    <top>
+        <Label text="Gestión de Usuarios (Operarios)"
+               BorderPane.alignment="CENTER"
+               style="-fx-font-size: 20px; -fx-padding: 10;" />
+    </top>
+
+    <!-- Tabla en el centro -->
+    <center>
+        <TableView fx:id="tablaUsuarios">
+            <columns>
+                <TableColumn fx:id="colUsername" text="Usuario" prefWidth="200" />
+                <TableColumn fx:id="colRol" text="Rol" prefWidth="120" />
+            </columns>
+        </TableView>
+    </center>
+
+    <!-- Formulario y botones abajo -->
+    <bottom>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="100" halignment="RIGHT" />
+                    <ColumnConstraints prefWidth="250" />
+                </columnConstraints>
+
+                <Label text="Usuario:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                <TextField fx:id="txtUsername"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                <Label text="Contraseña:" GridPane.rowIndex="1" GridPane.ColumnIndex="0" />
+                <PasswordField fx:id="txtPassword"
+                               GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            </GridPane>
+
+            <HBox spacing="10">
+                <Button text="Crear" fx:id="btnCrear" onAction="#onCrear" />
+                <Button text="Actualizar" fx:id="btnActualizar" onAction="#onActualizar" />
+                <Button text="Cambiar contraseña" fx:id="btnCambiarPassword" onAction="#onCambiarPassword" />
+                <Button text="Eliminar" fx:id="btnEliminar" onAction="#onEliminar" />
+                <Button text="Volver" fx:id="btnVolver" onAction="#onVolver" />
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>

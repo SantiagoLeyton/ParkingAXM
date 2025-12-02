@@ -9,11 +9,11 @@
 
     <Label text="Menú Administrador" />
 
-    <Button text="Registrar Vehículo" fx:id="btnRegistrar" />
-    <Button text="Listar Vehículos" fx:id="btnListar" />
-    <Button text="Cobro" fx:id="btnCobro" />
-    <Button text="Estadísticas" fx:id="btnEstadisticas" />
-    <Button text="Crear Usuario" fx:id="btnCrearUsuario" />
-    <Button text="Cerrar Sesión" fx:id="btnSalir" />
+    <Button text="Registrar Vehículo" fx:id="btnRegistrar" onAction="#onRegistrarVehiculo"/>
+    <Button text="Listar Vehículos" fx:id="btnListar" onAction="#onListarVehiculos"/>
+    <Button text="Cobro" fx:id="btnCobro" onAction="#onCobro"/>
+    <Button text="Estadísticas" fx:id="btnEstadisticas" onAction="#onEstadisticas"/>
+    <Button text="Crear Usuario" fx:id="btnCrearUsuario" onAction="#onCrearUsuario"/>
+    <Button text="Cerrar Sesión" fx:id="btnSalir" onAction="#onSalir"/>
 
 </VBox>
