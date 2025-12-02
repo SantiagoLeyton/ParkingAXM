@@ -7,7 +7,20 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Controlador de los menús de Admin y Operario.
+ * Desde aquí se navega a las diferentes pantallas del sistema.
+ */
 public class MenuController {
+
+    public static final String MENU_ADMIN_FXML = "/com/example/parkingaxm/views/MenuAdmin.fxml";
+    public static final String MENU_OPERARIO_FXML = "/com/example/parkingaxm/views/MenuOperario.fxml";
+
+    /**
+     * Ruta del menú desde el que se salió hacia una pantalla hija
+     * (registro, listar, cobro...). Se usa para el botón "Volver".
+     */
+    public static String menuActualFXML;
 
     // ================== NAVEGACIÓN COMÚN ==================
 
@@ -27,26 +40,31 @@ public class MenuController {
 
     @FXML
     private void onRegistrarVehiculo(ActionEvent event) {
+        menuActualFXML = MENU_ADMIN_FXML;
         cambiarVista(event, "/com/example/parkingaxm/views/RegistroView.fxml");
     }
 
     @FXML
     private void onListarVehiculos(ActionEvent event) {
+        menuActualFXML = MENU_ADMIN_FXML;
         cambiarVista(event, "/com/example/parkingaxm/views/ListarView.fxml");
     }
 
     @FXML
     private void onCobro(ActionEvent event) {
+        menuActualFXML = MENU_ADMIN_FXML;
         cambiarVista(event, "/com/example/parkingaxm/views/CobroView.fxml");
     }
 
     @FXML
     private void onEstadisticas(ActionEvent event) {
+        menuActualFXML = MENU_ADMIN_FXML;
         cambiarVista(event, "/com/example/parkingaxm/views/EstadisticasView.fxml");
     }
 
     @FXML
     private void onCrearUsuario(ActionEvent event) {
+        menuActualFXML = MENU_ADMIN_FXML;
         cambiarVista(event, "/com/example/parkingaxm/views/CrearUsuarioView.fxml");
     }
 
@@ -56,25 +74,27 @@ public class MenuController {
     }
 
     // ================== ACCIONES DEL MENÚ OPERARIO ==================
-    // (Solo las que se permiten)
 
     @FXML
     private void onRegistrarOperario(ActionEvent event) {
-        onRegistrarVehiculo(event);
+        menuActualFXML = MENU_OPERARIO_FXML;
+        cambiarVista(event, "/com/example/parkingaxm/views/RegistroView.fxml");
     }
 
     @FXML
     private void onListarOperario(ActionEvent event) {
-        onListarVehiculos(event);
+        menuActualFXML = MENU_OPERARIO_FXML;
+        cambiarVista(event, "/com/example/parkingaxm/views/ListarView.fxml");
     }
 
     @FXML
     private void onCobroOperario(ActionEvent event) {
-        onCobro(event);
+        menuActualFXML = MENU_OPERARIO_FXML;
+        cambiarVista(event, "/com/example/parkingaxm/views/CobroView.fxml");
     }
 
     @FXML
     private void onSalirOperario(ActionEvent event) {
-        onSalir(event);
+        cambiarVista(event, "/com/example/parkingaxm/views/LoginView.fxml");
     }
 }

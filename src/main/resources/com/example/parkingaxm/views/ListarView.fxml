@@ -8,18 +8,27 @@
             fx:controller="com.example.parkingaxm.controllers.ListarController">
 
     <top>
-        <Label text="Vehículos Registrados" BorderPane.alignment="CENTER" />
+        <Label text="Vehículos Registrados"
+               style="-fx-font-size: 18px; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER" />
     </top>
 
     <center>
         <TableView fx:id="tablaVehiculos">
             <columns>
-                <TableColumn text="Placa" fx:id="colPlaca" />
-                <TableColumn text="Hora Entrada" fx:id="colEntrada" />
-                <TableColumn text="Hora Salida" fx:id="colSalida" />
-                <TableColumn text="Total" fx:id="colTotal" />
+                <TableColumn text="Placa" fx:id="colPlaca" prefWidth="100" />
+                <TableColumn text="Tipo" fx:id="colTipo" prefWidth="80" />
+                <TableColumn text="Hora Entrada" fx:id="colEntrada" prefWidth="170" />
+                <TableColumn text="Hora Salida" fx:id="colSalida" prefWidth="170" />
+                <TableColumn text="Total" fx:id="colTotal" prefWidth="100" />
             </columns>
         </TableView>
     </center>
+
+    <bottom>
+        <Button text="Volver al menú"
+                onAction="#onVolver"
+                BorderPane.alignment="CENTER" />
+    </bottom>
 
 </BorderPane>
