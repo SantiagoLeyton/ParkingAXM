@@ -1,5 +1,15 @@
 [
   {
+    "username": "operario",
+    "password": "1234",
+    "rol": "OPERARIO"
+  },
+  {
+    "username": "operario1",
+    "password": "1234",
+    "rol": "OPERARIO"
+  },
+  {
     "username": "admin",
     "password": "1234",
     "rol": "ADMIN"
