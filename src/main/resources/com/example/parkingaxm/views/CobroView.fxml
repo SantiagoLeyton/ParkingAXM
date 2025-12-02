@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.CobroController">
+      fx:controller="com.example.parkingaxm.controllers.CobroController"
+      alignment="CENTER"
+      spacing="20">
 
-    <Label text="Cobro de Parqueadero" />
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-    <TextField fx:id="txtPlaca" promptText="Placa del vehículo" />
-    <Button text="Buscar" fx:id="btnBuscar" />
+    <Label text="Cobro de Parqueadero"
+           style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
 
-    <Label text="Horas: " fx:id="lblHoras" />
-    <Label text="Total a pagar: " fx:id="lblTotal" />
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Placa:"/>
+        <TextField fx:id="txtPlaca" promptText="Ingrese la placa" prefWidth="180"/>
+    </HBox>
 
-    <Button text="Confirmar Pago" fx:id="btnConfirmar" />
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Calcular y Cobrar" onAction="#onCalcularCobro"/>
+        <Button text="Volver al menú" onAction="#onVolverMenu"/>
+    </HBox>
+
+    <VBox alignment="CENTER" spacing="5">
+        <Label fx:id="lblHoras" text="Horas:"/>
+        <Label fx:id="lblTotal" text="Total a pagar:"/>
+    </VBox>
 
 </VBox>

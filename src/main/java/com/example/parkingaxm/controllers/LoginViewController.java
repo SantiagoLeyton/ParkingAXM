@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.example.parkingaxm.utils.SessionManager;
 
 public class LoginViewController {
 
@@ -36,6 +37,8 @@ public class LoginViewController {
             mostrarAlerta("Error", "Usuario o contraseña incorrectos.");
             return;
         }
+
+        SessionManager.setUsuarioActual(u);
 
         if (u.getRol() == Rol.ADMIN) {
             cargarVista(event, "/com/example/parkingaxm/views/MenuAdmin.fxml");
