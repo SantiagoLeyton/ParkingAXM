@@ -1,36 +1,23 @@
 package com.example.parkingaxm.services;
 
 import com.example.parkingaxm.models.Usuario;
-import com.example.parkingaxm.enums.Rol;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.InputStreamReader;
-import java.util.List;
 
 public class LoginService {
 
+    // Usamos el mismo servicio que maneja el JSON: data/usuarios.json
+    private final UsuarioService usuarioService = new UsuarioService();
+
+    /**
+     * Intenta iniciar sesión.
+     * Devuelve el Usuario si las credenciales son correctas.
+     * Devuelve null si son incorrectas.
+     */
     public Usuario login(String user, String pass) {
-        List<Usuario> usuarios = cargarUsuarios();
-        if (usuarios == null) return null;
-
-        return usuarios.stream()
-                .filter(u -> u.getUsername().equals(user) && u.getPassword().equals(pass))
-                .findFirst()
-                .orElse(null);
-    }
-
-    private List<Usuario> cargarUsuarios() {
         try {
-            Gson gson = new Gson();
-            InputStreamReader reader = new InputStreamReader(
-                    getClass().getResourceAsStream("/com/example/parkingaxm/data/usuarios.json")
-            );
-
-            return gson.fromJson(reader, new TypeToken<List<Usuario>>(){}.getType());
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            // Este método ya valida usuario/contraseña y lanza IllegalArgumentException si están mal
+            return usuarioService.iniciarSesion(user, pass);
+        } catch (IllegalArgumentException e) {
+            // Credenciales inválidas -> devolvemos null (el controlador muestra el error)
             return null;
         }
     }

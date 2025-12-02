@@ -10,6 +10,11 @@
     "rol": "OPERARIO"
   },
   {
+    "username": "leyton",
+    "password": "1234",
+    "rol": "OPERARIO"
+  },
+  {
     "username": "admin",
     "password": "1234",
     "rol": "ADMIN"
