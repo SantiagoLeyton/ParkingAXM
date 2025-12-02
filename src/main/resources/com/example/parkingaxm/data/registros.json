@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "placa": "ABC123",
+    "tipoVehiculo": "CARRO",
+    "entrada": "2025-12-01T22:36:22.533346900",
+    "total": 0.0
+  }
+]
