@@ -5,13 +5,13 @@
 
 <VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.LoginController">
+      fx:controller="com.example.parkingaxm.controllers.LoginViewController">
 
     <Label text="Iniciar Sesión" />
 
     <TextField fx:id="txtUsuario" promptText="Usuario" />
     <PasswordField fx:id="txtPassword" promptText="Contraseña" />
 
-    <Button text="Ingresar" fx:id="btnLogin" />
+    <Button text="Ingresar" fx:id="btnLogin" onAction="#onLogin" />
 
 </VBox>
