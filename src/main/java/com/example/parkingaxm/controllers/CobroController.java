@@ -3,6 +3,7 @@ package com.example.parkingaxm.controllers;
 import com.example.parkingaxm.enums.Rol;
 import com.example.parkingaxm.enums.TipoVehiculo;
 import com.example.parkingaxm.models.Registro;
+import com.example.parkingaxm.services.ParqueaderoService;
 import com.example.parkingaxm.utils.FileManager;
 import com.example.parkingaxm.utils.SessionManager;
 import com.example.parkingaxm.utils.TimeUtils;
@@ -29,6 +30,16 @@ public class CobroController {
 
     @FXML
     private Label lblTotal;
+
+    @FXML
+    private Label lblEspacios;
+
+    @FXML
+    public void initialize() {
+        ParqueaderoService ps = new ParqueaderoService();
+        int disponibles = ps.getEspaciosDisponibles();
+        lblEspacios.setText("Espacios disponibles: " + disponibles);
+    }
 
     @FXML
     private void onCalcularCobro() {
@@ -76,19 +87,25 @@ public class CobroController {
         // Guardar cambios en registros.json
         FileManager.guardarRegistros(registros);
 
-        // Actualizar labels en la vista
-        double horasAprox = minutos / 60.0;
-        lblHoras.setText(String.format("Tiempo: %.2f horas (%d minutos)", horasAprox, minutos));
-        lblTotal.setText("Total a pagar: $" + (long) total);
+        // Liberar espacio
+        ParqueaderoService ps = new ParqueaderoService();
+        ps.liberarEspacio();
 
+        // Actualizar espacios disponibles en pantalla
+        int disponiblesActualizados = ps.getEspaciosDisponibles();
+        lblEspacios.setText("Espacios disponibles: " + disponiblesActualizados);
+
+        // Mostrar info al usuario
         mostrarInfo(
                 "Cobro realizado.\n\n" +
                         "Placa: " + reg.getPlaca() + "\n" +
                         "Tipo: " + tipo + "\n" +
                         "Minutos: " + minutos + "\n" +
                         "Lapsos de 30 min: " + lapsos + "\n" +
-                        "Total: $" + (long) total
+                        "Total: $" + (long) total + "\n\n" +
+                        "Espacios disponibles: " + disponiblesActualizados
         );
+
 
         txtPlaca.clear();
     }

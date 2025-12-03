@@ -30,6 +30,7 @@
     <VBox alignment="CENTER" spacing="5">
         <Label fx:id="lblHoras" text="Horas:"/>
         <Label fx:id="lblTotal" text="Total a pagar:"/>
+        <Label fx:id="lblEspacios" text="Espacios disponibles: " style="-fx-font-size: 14px;"/>
     </VBox>
 
 </VBox>

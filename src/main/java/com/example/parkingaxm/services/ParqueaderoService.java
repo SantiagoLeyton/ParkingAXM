@@ -153,6 +153,21 @@ public class ParqueaderoService {
         }
     }
 
+    public void liberarEspacio() {
+        EspaciosData espaciosData = leerEspacios();
+
+        // Calcular ocupados REALES según registros sin salida
+        List<Registro> registros = leerRegistros();
+        long ocupadosReales = registros.stream()
+                .filter(r -> r.getSalida() == null)
+                .count();
+
+        espaciosData.ocupados = (int) ocupadosReales;
+
+        guardarEspacios(espaciosData);
+    }
+
+
     private EspaciosData leerEspacios() {
         if (!Files.exists(ESPACIOS_PATH)) {
             // Si el archivo no existe, se crea uno por defecto
