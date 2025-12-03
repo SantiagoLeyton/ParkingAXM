@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.io.FileOutputStream;
+import java.io.File;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 
 import javafx.event.ActionEvent;
 
@@ -72,6 +74,7 @@ public class EstadisticasController implements Initializable {
     }
 
     @FXML
+
     private void onExportarPdf() {
         try {
             LocalDate desde = dpDesde.getValue();
@@ -79,8 +82,23 @@ public class EstadisticasController implements Initializable {
             TipoVehiculo tipo = obtenerTipoSeleccionado();
             EstadisticasDTO data = service.obtenerEstadisticas(desde, hasta, tipo);
 
+            // Selector de archivo para que el usuario elija dónde guardar el PDF
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar estadísticas como PDF");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf")
+            );
+            fileChooser.setInitialFileName("estadisticas_parkingAXM.pdf");
+
+            // null está bien si no tienes el Stage a la mano
+            File file = fileChooser.showSaveDialog(null);
+            if (file == null) {
+                // El usuario canceló
+                return;
+            }
+
             Document doc = new Document();
-            PdfWriter.getInstance(doc, new FileOutputStream("estadisticas_parkingAXM.pdf"));
+            PdfWriter.getInstance(doc, new FileOutputStream(file));
             doc.open();
 
             doc.add(new Paragraph("Estadísticas ParkingAXM"));
@@ -98,19 +116,21 @@ public class EstadisticasController implements Initializable {
             doc.add(new Paragraph("Dinero mes: " + data.dineroMes));
             doc.add(new Paragraph("Dinero total: " + data.dineroTotal));
             doc.add(new Paragraph(" "));
-            doc.add(new Paragraph("Permanencia promedio (min): " + String.format("%.1f", data.permanenciaPromedioMin)));
+            doc.add(new Paragraph("Permanencia promedio (min): "
+                    + String.format("%.1f", data.permanenciaPromedioMin)));
             doc.add(new Paragraph("Permanencia máxima (min): " + data.permanenciaMaxMin));
 
             doc.close();
 
             mostrarAlerta("PDF generado",
-                    "Se creó el archivo estadisticas_parkingAXM.pdf en la carpeta del proyecto.");
+                    "Se creó el archivo en:\n" + file.getAbsolutePath());
 
         } catch (Exception e) {
             e.printStackTrace();
             mostrarError("No se pudo generar el PDF: " + e.getMessage());
         }
     }
+
 
     private void cargarDatos() {
         LocalDate desde = dpDesde.getValue();

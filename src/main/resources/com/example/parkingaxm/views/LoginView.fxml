@@ -4,6 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
@@ -19,6 +21,13 @@
 
         <!-- Tarjeta estilo glassmorphism -->
         <VBox alignment="CENTER" spacing="20" maxWidth="500" styleClass="glass-card">
+
+            <ImageView fitHeight="120" preserveRatio="true">
+                <image>
+                    <Image url="@/com/example/parkingaxm/img/logo.png"/>
+                </image>
+            </ImageView>
+
             <Label text="ParkingAXM"
                    styleClass="login-title"/>
 
