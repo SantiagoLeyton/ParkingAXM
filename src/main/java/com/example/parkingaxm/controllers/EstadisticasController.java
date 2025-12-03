@@ -20,6 +20,18 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import com.example.parkingaxm.models.Usuario;
+import com.example.parkingaxm.enums.Rol;
+import com.example.parkingaxm.utils.SessionManager;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import javafx.event.ActionEvent;
+
+
 public class EstadisticasController implements Initializable {
 
     @FXML private DatePicker dpDesde;
@@ -219,4 +231,35 @@ public class EstadisticasController implements Initializable {
         a.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         a.showAndWait();
     }
+
+    @FXML
+    private void volverAlMenu(ActionEvent event) {
+        try {
+            Usuario u = SessionManager.getUsuarioActual();
+            if (u == null) {
+                mostrarError("No hay usuario en sesión.");
+                return;
+            }
+
+            String ruta;
+
+            if (u.getRol() == Rol.ADMIN) {
+                ruta = "/com/example/parkingaxm/views/MenuAdmin.fxml";
+            } else {
+                ruta = "/com/example/parkingaxm/views/MenuOperario.fxml";
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(ruta));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarError("No se pudo volver al menú: " + e.getMessage());
+        }
+    }
+
 }

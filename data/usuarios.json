@@ -1,17 +1,7 @@
 [
   {
-    "username": "operario",
-    "password": "1234",
-    "rol": "OPERARIO"
-  },
-  {
-    "username": "operario1",
-    "password": "1234",
-    "rol": "OPERARIO"
-  },
-  {
     "username": "leyton",
-    "password": "1234",
+    "password": "abcd",
     "rol": "OPERARIO"
   },
   {

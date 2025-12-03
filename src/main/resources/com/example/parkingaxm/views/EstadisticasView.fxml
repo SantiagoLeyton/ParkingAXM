@@ -28,6 +28,8 @@
             <Button text="Aplicar filtros" onAction="#onAplicarFiltros"/>
 
             <Button text="Exportar PDF" onAction="#onExportarPdf"/>
+
+            <Button text="Volver al menú" onAction="#volverAlMenu"/>
         </HBox>
     </top>
 
