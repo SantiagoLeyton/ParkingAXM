@@ -1,0 +1,306 @@
+/* ============================================================
+   FONDOS Y EFECTOS GENERALES
+   ============================================================ */
+
+.menu-background {
+    -fx-background-color: #000;
+}
+
+.login-background {
+    -fx-background-color: #000;
+}
+
+.background-effects {
+    -fx-background-color:
+            radial-gradient(radius 60%, rgba(0, 123, 255, 0.35), transparent),
+            radial-gradient(radius 50%, rgba(0, 180, 255, 0.20), transparent),
+            radial-gradient(radius 70%, rgba(0, 80, 255, 0.25), transparent);
+    -fx-pref-width: 100%;
+    -fx-pref-height: 100%;
+}
+
+
+/* ============================================================
+   GLASS CARD
+   ============================================================ */
+
+.glass-card {
+    -fx-background-color: rgba(255,255,255,0.10);
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-border-color: rgba(255,255,255,0.18);
+    -fx-border-width: 1.5px;
+    -fx-padding: 40;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 25, 0.2, 0, 8);
+}
+
+
+/* ============================================================
+   TITULOS
+   ============================================================ */
+
+.login-title {
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
+}
+
+.menu-title {
+    -fx-text-fill: white;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-padding: 20 0 10 0;
+}
+
+
+/* ============================================================
+   INPUTS LOGIN
+   ============================================================ */
+
+.login-input {
+    -fx-background-color: rgba(255,255,255,0.15);
+    -fx-border-color: rgba(255,255,255,0.3);
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255,255,255,0.6);
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 10;
+    -fx-font-size: 15px;
+}
+
+.login-input:focused {
+    -fx-border-color: #0099ff;
+    -fx-background-color: rgba(255,255,255,0.25);
+}
+
+
+/* ============================================================
+   BOTONES LOGIN Y GENERALES
+   ============================================================ */
+
+.login-button {
+    -fx-background-color: linear-gradient(to right, #007bff, #00b0ff);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 25;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 10, 0.2, 0, 3);
+}
+
+.login-button:hover {
+    -fx-background-color: linear-gradient(to right, #0099ff, #00ccff);
+}
+
+.button {
+    -fx-background-radius: 10;
+    -fx-font-size: 14px;
+}
+
+
+/* ============================================================
+   MENU TARJETAS
+   ============================================================ */
+
+.menu-card {
+    -fx-background-color: rgba(255,255,255,0.10);
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(255,255,255,0.25);
+    -fx-border-width: 1px;
+    -fx-padding: 25;
+    -fx-min-width: 180;
+    -fx-min-height: 150;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.45), 15, 0.2, 0, 4);
+}
+
+.menu-card:hover {
+    -fx-background-color: rgba(0,140,255,0.30);
+    -fx-scale-x: 1.07;
+    -fx-scale-y: 1.07;
+    -fx-effect: dropshadow(gaussian, rgba(0,140,255,0.50), 25, 0.2, 0, 8);
+}
+
+.menu-icon {
+    -fx-font-size: 45px;
+    -fx-text-fill: white;
+}
+
+.menu-card-text {
+    -fx-text-fill: white;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+
+/* ============================================================
+   AJUSTES GENERALES
+   ============================================================ */
+
+.label {
+    -fx-text-fill: white;
+}
+
+.root {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+
+/* ============================================================
+   TABLEVIEW (LISTAR VEHICULOS)
+   ============================================================ */
+
+.table-view {
+    -fx-background-color: rgba(255,255,255,0.05);
+    -fx-border-color: rgba(255,255,255,0.25);
+    -fx-border-width: 1px;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: rgba(255,255,255,0.15);
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.table-view .cell {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+}
+
+.table-row-cell {
+    -fx-background-color: rgba(255,255,255,0.08);
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: rgba(0,150,255,0.45);
+}
+
+.table-row-cell:hover {
+    -fx-background-color: rgba(0,150,255,0.25);
+}
+
+
+/* ============================================================
+   TABS TYPE GLASS
+   ============================================================ */
+
+.glass-tabs .tab-header-area {
+    -fx-background-color: rgba(255,255,255,0.12);
+}
+
+.glass-tabs .tab {
+    -fx-background-color: rgba(255,255,255,0.07);
+    -fx-background-radius: 8;
+}
+
+.glass-tabs .tab:selected {
+    -fx-background-color: rgba(0,150,255,0.35);
+}
+
+.glass-tabs .tab .tab-label {
+    -fx-text-fill: white;
+}
+
+
+/* ============================================================
+   ESTADÍSTICAS — CORRECCIÓN DE TEXTO INVISIBLE
+   ============================================================ */
+
+/* Hace que el panel de contenido sea gris claro */
+.estadisticas-content .label {
+    -fx-text-fill: #222;
+}
+
+.estadisticas-title {
+    -fx-text-fill: #222;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.estadisticas-number {
+    -fx-text-fill: #111;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.estadisticas-grid .label {
+    -fx-text-fill: #444;
+}
+
+/* Separador gris */
+.estadisticas-separator {
+    -fx-background-color: #aaa;
+}
+
+/* Gráficas */
+.chart {
+    -fx-background-color: #111;
+}
+
+.chart-plot-background {
+    -fx-background-color: #111;
+}
+
+.chart .axis-label,
+.chart .axis,
+.chart .chart-legend-item {
+    -fx-text-fill: white;
+}
+
+/* Heatmap */
+.heatmap-background {
+    -fx-background-color: #f5f5f5;
+}
+
+.heatmap-cell {
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+}
+
+/* ================================
+   GRÁFICAS — FONDO BLANCO + TEXTO NEGRO
+   ================================ */
+
+/* Fondo general del área de los gráficos */
+.chart {
+    -fx-background-color: white;
+}
+
+/* Fondo interno de plot del gráfico */
+.chart-plot-background {
+    -fx-background-color: white;
+}
+
+/* Líneas de cuadrícula */
+.chart-horizontal-grid-lines,
+.chart-vertical-grid-lines {
+    -fx-stroke: #e0e0e0;
+}
+
+/* Ejes */
+.axis {
+    -fx-tick-label-fill: black;
+    -fx-label-fill: black;
+    -fx-font-size: 14px;
+}
+
+/* Leyendas */
+.chart-legend {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.chart-legend-item-symbol {
+    -fx-background-radius: 5;
+}

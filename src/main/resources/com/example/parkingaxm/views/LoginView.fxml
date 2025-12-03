@@ -1,17 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.LoginViewController">
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.example.parkingaxm.controllers.LoginViewController"
+           stylesheets="@../css/estilos.css"
+           styleClass="login-background">
 
-    <Label text="Iniciar Sesión" />
+    <!-- Capa oscura con destellos azules -->
+    <Pane styleClass="background-effects"/>
 
-    <TextField fx:id="txtUsuario" promptText="Usuario" />
-    <PasswordField fx:id="txtPassword" promptText="Contraseña" />
+    <!-- Contenedor principal -->
+    <VBox alignment="CENTER" spacing="20">
 
-    <Button text="Ingresar" fx:id="btnLogin" onAction="#onLogin" />
+        <!-- Tarjeta estilo glassmorphism -->
+        <VBox alignment="CENTER" spacing="20" maxWidth="500" styleClass="glass-card">
+            <Label text="ParkingAXM"
+                   styleClass="login-title"/>
 
-</VBox>
+            <VBox alignment="CENTER" spacing="10" maxWidth="300">
+
+                <TextField fx:id="txtUsuario"
+                           promptText="Usuario"
+                           styleClass="login-input"/>
+
+                <PasswordField fx:id="txtPassword"
+                               promptText="Contraseña"
+                               styleClass="login-input"/>
+
+                <Button text="Ingresar"
+                        fx:id="btnLogin"
+                        onAction="#onLogin"
+                        styleClass="login-button"/>
+            </VBox>
+        </VBox>
+
+    </VBox>
+
+</StackPane>

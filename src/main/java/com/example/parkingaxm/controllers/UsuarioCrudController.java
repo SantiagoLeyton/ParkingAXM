@@ -34,10 +34,8 @@ public class UsuarioCrudController {
     private final UsuarioService usuarioService = new UsuarioService();
     private final ObservableList<Usuario> modeloTabla = FXCollections.observableArrayList();
 
-    // Se ejecuta al cargar el FXML
     @FXML
     public void initialize() {
-        // Columnas
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         colRol.setCellValueFactory(cellData ->
                 new SimpleStringProperty(
@@ -50,7 +48,6 @@ public class UsuarioCrudController {
         tablaUsuarios.setItems(modeloTabla);
         cargarUsuariosEnTabla();
 
-        // Cuando seleccionas un usuario en la tabla, se pasa al formulario
         tablaUsuarios.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSel, newSel) -> {
                     if (newSel != null) {
@@ -63,7 +60,7 @@ public class UsuarioCrudController {
 
     private void cargarUsuariosEnTabla() {
         modeloTabla.clear();
-        List<Usuario> operarios = usuarioService.listarOperarios(); // Sólo operarios (no admin)
+        List<Usuario> operarios = usuarioService.listarOperarios();
         modeloTabla.addAll(operarios);
     }
 
@@ -73,7 +70,21 @@ public class UsuarioCrudController {
         tablaUsuarios.getSelectionModel().clearSelection();
     }
 
-    // --------- CREAR USUARIO (OPERARIO) ---------
+    private boolean validarOperarioSeleccionado(Usuario seleccionado) {
+        if (seleccionado == null) {
+            mostrarError("Sin selección", "Debes seleccionar un usuario.");
+            return false;
+        }
+
+        if (seleccionado.getRol() != com.example.parkingaxm.enums.Rol.OPERARIO) {
+            mostrarError("Operación inválida", "Solo puedes gestionar usuarios tipo OPERARIO.");
+            return false;
+        }
+
+        return true;
+    }
+
+    // --------- CREAR USUARIO ---------
     @FXML
     private void onCrear(ActionEvent event) {
         String username = txtUsername.getText();
@@ -92,23 +103,24 @@ public class UsuarioCrudController {
         }
     }
 
-    // --------- ACTUALIZAR USUARIO (username y opcionalmente contraseña) ---------
+    // --------- ACTUALIZAR USUARIO ---------
     @FXML
     private void onActualizar(ActionEvent event) {
         Usuario seleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
-        if (seleccionado == null) {
-            mostrarError("Sin selección", "Debes seleccionar un usuario de la tabla.");
-            return;
-        }
+
+        if (!validarOperarioSeleccionado(seleccionado)) return;
 
         String usernameActual = seleccionado.getUsername();
-        String nuevoUsername = txtUsername.getText();
-        String nuevaPassword = txtPassword.getText();
 
-        if (nuevaPassword != null && nuevaPassword.isBlank()) {
-            // si está vacío, no cambiamos la contraseña
-            nuevaPassword = null;
-        }
+        // Si el username está vacío, mantener el actual
+        String nuevoUsername = txtUsername.getText().isBlank()
+                ? usernameActual
+                : txtUsername.getText();
+
+        // Si password está vacío -> no cambiarla
+        String nuevaPassword = txtPassword.getText().isBlank()
+                ? null
+                : txtPassword.getText();
 
         try {
             usuarioService.editarOperario(usernameActual, nuevoUsername, nuevaPassword);
@@ -116,7 +128,7 @@ public class UsuarioCrudController {
             limpiarFormulario();
             cargarUsuariosEnTabla();
         } catch (IllegalArgumentException e) {
-            mostrarError("No se pudo actualizar", e.getMessage());
+            mostrarError("Error al actualizar", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             mostrarError("Error inesperado", e.getMessage());
@@ -127,25 +139,26 @@ public class UsuarioCrudController {
     @FXML
     private void onCambiarPassword(ActionEvent event) {
         Usuario seleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
-        if (seleccionado == null) {
-            mostrarError("Sin selección", "Debes seleccionar un usuario de la tabla.");
-            return;
-        }
+
+        if (!validarOperarioSeleccionado(seleccionado)) return;
 
         String nuevaPassword = txtPassword.getText();
-        if (nuevaPassword == null || nuevaPassword.isBlank()) {
-            mostrarError("Contraseña vacía", "Ingresa la nueva contraseña.");
+
+        if (nuevaPassword.isBlank()) {
+            mostrarError("Contraseña vacía", "Ingresa una nueva contraseña.");
             return;
         }
 
         try {
-            // username se mantiene, rol se mantiene, sólo cambia la contraseña
             usuarioService.editarOperario(seleccionado.getUsername(), null, nuevaPassword);
+
             mostrarInfo("Contraseña actualizada",
-                    "Se cambió la contraseña de: " + seleccionado.getUsername());
+                    "Se cambió la contraseña del usuario: " + seleccionado.getUsername());
+
             txtPassword.clear();
+            cargarUsuariosEnTabla();
         } catch (IllegalArgumentException e) {
-            mostrarError("No se pudo actualizar", e.getMessage());
+            mostrarError("Error al actualizar", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             mostrarError("Error inesperado", e.getMessage());
@@ -156,10 +169,8 @@ public class UsuarioCrudController {
     @FXML
     private void onEliminar(ActionEvent event) {
         Usuario seleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
-        if (seleccionado == null) {
-            mostrarError("Sin selección", "Debes seleccionar un usuario de la tabla.");
-            return;
-        }
+
+        if (!validarOperarioSeleccionado(seleccionado)) return;
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setHeaderText("Eliminar usuario");
@@ -167,6 +178,7 @@ public class UsuarioCrudController {
                 + seleccionado.getUsername() + "?");
 
         var result = confirm.showAndWait();
+
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
                 usuarioService.eliminarOperario(seleccionado.getUsername());
@@ -182,24 +194,27 @@ public class UsuarioCrudController {
         }
     }
 
-    // --------- VOLVER AL MENÚ ADMIN ---------
+    // --------- VOLVER ---------
     @FXML
     private void onVolver(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/com/example/parkingaxm/views/MenuAdmin.fxml"));
+
             Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) ((Node) event.getSource())
-                    .getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
             stage.setScene(scene);
+            stage.setMaximized(true); // <-- ahora no vuelve a una esquina
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
             mostrarError("Error de navegación", "No se pudo volver al menú.");
         }
     }
 
-    // --------- Helpers de alertas ---------
+    // --------- ALERTAS ---------
     private void mostrarError(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(header);

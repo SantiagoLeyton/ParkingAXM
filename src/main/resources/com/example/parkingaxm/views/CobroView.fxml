@@ -4,33 +4,71 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.CobroController"
-      alignment="CENTER"
-      spacing="20">
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.example.parkingaxm.controllers.CobroController"
+           stylesheets="@../css/estilos.css"
+           styleClass="login-background">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+    <!-- Fondo con efectos -->
+    <Pane styleClass="background-effects"/>
 
-    <Label text="Cobro de Parqueadero"
-           style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+    <!-- Contenido principal -->
+    <VBox alignment="CENTER" spacing="25">
 
-    <HBox spacing="10" alignment="CENTER">
-        <Label text="Placa:"/>
-        <TextField fx:id="txtPlaca" promptText="Ingrese la placa" prefWidth="180"/>
-    </HBox>
+        <!-- Tarjeta glass -->
+        <VBox alignment="CENTER" spacing="20" maxWidth="550" styleClass="glass-card">
 
-    <HBox spacing="15" alignment="CENTER">
-        <Button text="Calcular y Cobrar" onAction="#onCalcularCobro"/>
-        <Button text="Volver al menú" onAction="#onVolverMenu"/>
-    </HBox>
+            <Label text="Cobro de Parqueadero"
+                   styleClass="login-title"
+                   style="-fx-font-size: 32px;" />
 
-    <VBox alignment="CENTER" spacing="5">
-        <Label fx:id="lblHoras" text="Horas:"/>
-        <Label fx:id="lblTotal" text="Total a pagar:"/>
-        <Label fx:id="lblEspacios" text="Espacios disponibles: " style="-fx-font-size: 14px;"/>
+            <!-- Entrada de placa -->
+            <HBox spacing="12" alignment="CENTER">
+                <Label text="Placa:" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+                <TextField fx:id="txtPlaca"
+                           promptText="Ingrese la placa"
+                           prefWidth="220"
+                           styleClass="login-input"/>
+            </HBox>
+
+            <!-- Botones -->
+            <HBox spacing="15" alignment="CENTER">
+
+                <Button text="Calcular y Cobrar"
+                        onAction="#onCalcularCobro"
+                        styleClass="login-button"
+                        style="-fx-font-size: 15px;" />
+
+                <Button text="Volver"
+                        onAction="#onVolverMenu"
+                        style="
+                            -fx-background-color: rgba(255,255,255,0.18);
+                            -fx-text-fill: white;
+                            -fx-padding: 10 20;
+                            -fx-background-radius: 12;
+                            -fx-border-color: rgba(255,255,255,0.3);
+                            -fx-border-radius: 12;
+                        " />
+            </HBox>
+
+            <!-- Resultados -->
+            <VBox alignment="CENTER" spacing="6">
+                <Label fx:id="lblHoras"
+                       text="Horas:"
+                       style="-fx-text-fill: white; -fx-font-size: 15px;" />
+
+                <Label fx:id="lblTotal"
+                       text="Total a pagar:"
+                       style="-fx-text-fill: white; -fx-font-size: 15px;" />
+
+                <Label fx:id="lblEspacios"
+                       text="Espacios disponibles:"
+                       style="-fx-text-fill: white; -fx-font-size: 15px;" />
+            </VBox>
+
+        </VBox>
+
     </VBox>
 
-</VBox>
+</StackPane>

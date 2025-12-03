@@ -1,19 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 
-<VBox spacing="15" alignment="CENTER" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.parkingaxm.controllers.MenuController">
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.example.parkingaxm.controllers.MenuController"
+           stylesheets="@../css/estilos.css"
+           styleClass="menu-background">
 
-    <Label text="Menú Administrador" />
+    <VBox alignment="TOP_CENTER" spacing="40">
 
-    <Button text="Registrar Vehículo" fx:id="btnRegistrar" onAction="#onRegistrarVehiculo"/>
-    <Button text="Listar Vehículos" fx:id="btnListar" onAction="#onListarVehiculos"/>
-    <Button text="Cobro" fx:id="btnCobro" onAction="#onCobro"/>
-    <Button text="Estadísticas" fx:id="btnEstadisticas" onAction="#onEstadisticas"/>
-    <Button text="Crear Usuario" fx:id="btnCrearUsuario" onAction="#onCrearUsuario"/>
-    <Button text="Cerrar Sesión" fx:id="btnSalir" onAction="#onSalir"/>
+        <!-- Título -->
+        <Label text="Panel de Administrador - ParkingAXM" styleClass="menu-title"/>
 
-</VBox>
+        <!-- Zona de tarjetas -->
+        <GridPane hgap="30" vgap="30" alignment="CENTER">
+
+            <children>
+
+                <!-- Registrar vehículo -->
+                <VBox styleClass="menu-card" alignment="CENTER" spacing="10"
+                      GridPane.rowIndex="0" GridPane.columnIndex="0"
+                      onMouseClicked="#onRegistrarVehiculo">
+
+                    <Label text="🚗" styleClass="menu-icon"/>
+                    <Label text="Registrar Vehículo" styleClass="menu-card-text"/>
+
+                </VBox>
+
+                <!-- Listar vehículos -->
+                <VBox styleClass="menu-card" alignment="CENTER" spacing="10"
+                      GridPane.rowIndex="0" GridPane.columnIndex="1"
+                      onMouseClicked="#onListarVehiculos">
+
+                    <Label text="📋" styleClass="menu-icon"/>
+                    <Label text="Listar Vehículos" styleClass="menu-card-text"/>
+
+                </VBox>
+
+                <!-- Cobro -->
+                <VBox styleClass="menu-card" alignment="CENTER" spacing="10"
+                      GridPane.rowIndex="1" GridPane.columnIndex="0"
+                      onMouseClicked="#onCobro">
+
+                    <Label text="💰" styleClass="menu-icon"/>
+                    <Label text="Cobro" styleClass="menu-card-text"/>
+
+                </VBox>
+
+                <!-- Estadísticas -->
+                <VBox styleClass="menu-card" alignment="CENTER" spacing="10"
+                      GridPane.rowIndex="1" GridPane.columnIndex="1"
+                      onMouseClicked="#onEstadisticas">
+
+                    <Label text="📊" styleClass="menu-icon"/>
+                    <Label text="Estadísticas" styleClass="menu-card-text"/>
+
+                </VBox>
+
+                <!-- Crear usuario -->
+                <VBox styleClass="menu-card" alignment="CENTER" spacing="10"
+                      GridPane.rowIndex="2" GridPane.columnIndex="0"
+                      onMouseClicked="#onCrearUsuario">
+
+                    <Label text="➕" styleClass="menu-icon"/>
+                    <Label text="Crear Usuario" styleClass="menu-card-text"/>
+
+                </VBox>
+
+                <!-- Cerrar sesión -->
+                <VBox styleClass="menu-card" alignment="CENTER" spacing="10"
+                      GridPane.rowIndex="2" GridPane.columnIndex="1"
+                      onMouseClicked="#onSalir">
+
+                    <Label text="🚪" styleClass="menu-icon"/>
+                    <Label text="Cerrar Sesión" styleClass="menu-card-text"/>
+
+                </VBox>
+
+            </children>
+
+        </GridPane>
+
+    </VBox>
+
+</StackPane>

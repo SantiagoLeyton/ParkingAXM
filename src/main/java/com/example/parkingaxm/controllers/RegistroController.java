@@ -106,7 +106,6 @@ public class RegistroController {
         }
     }
 
-
     /**
      * Botón para volver al menú desde la pantalla de registro.
      */
