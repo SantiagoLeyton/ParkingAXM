@@ -45,6 +45,8 @@ public class RegistroController {
      */
     @FXML
     private void onRegistrarEntrada(ActionEvent event) {
+        Registro registro = null;  // 🔹 Declarada aquí para usarla después del try
+
         try {
             String placa = txtPlaca.getText();
             TipoVehiculo tipo = cmbTipoVehiculo.getValue();
@@ -72,17 +74,23 @@ public class RegistroController {
                 return;
             }
 
-            Registro registro = parqueaderoService.registrarEntradaManual(placa, tipo);
+            // 🔹 Registrar vehículo
+            registro = parqueaderoService.registrarEntradaManual(placa, tipo);
 
+            // 🔹 Obtener espacios disponibles DESPUÉS del registro
+            int disponibles = parqueaderoService.getEspaciosDisponibles();
+
+            // 🔹 Una sola alerta consolidada
             mostrarAlerta(Alert.AlertType.INFORMATION,
                     "Entrada registrada",
                     "Vehículo ingresado correctamente:\n" +
                             "Placa: " + registro.getPlaca() + "\n" +
                             "Tipo: " + registro.getTipoVehiculo() + "\n" +
-                            "Hora de entrada: " + registro.getEntrada()
+                            "Hora de entrada: " + registro.getEntrada() + "\n\n" +
+                            "Espacios disponibles: " + disponibles
             );
 
-            // Limpiamos los campos para un siguiente registro
+            // 🔹 Limpiar campos
             txtPlaca.clear();
             cmbTipoVehiculo.getSelectionModel().clearSelection();
 
@@ -97,6 +105,7 @@ public class RegistroController {
                     "Ocurrió un problema al registrar la entrada: " + e.getMessage());
         }
     }
+
 
     /**
      * Botón para volver al menú desde la pantalla de registro.

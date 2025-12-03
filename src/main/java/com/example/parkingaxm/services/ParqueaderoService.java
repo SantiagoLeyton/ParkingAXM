@@ -64,7 +64,8 @@ public class ParqueaderoService {
      *  - Guarda el registro en registros.json.
      */
     public Registro registrarEntradaManual(String placa, TipoVehiculo tipoVehiculo) {
-        // 1. Validar datos recibidos
+
+        // 1. Validar datos de entrada
         if (placa == null || placa.trim().isEmpty()) {
             throw new IllegalStateException("La placa no puede estar vacía.");
         }
@@ -72,34 +73,70 @@ public class ParqueaderoService {
             throw new IllegalStateException("Debes seleccionar el tipo de vehículo.");
         }
 
-        // 2. Validar capacidad del parqueadero
+        placa = placa.trim().toUpperCase();
+
+        // 2. Leer registros actuales
+        List<Registro> registros = leerRegistros();
+
+        // 3. Validar si ya existe un vehículo activo con la misma placa
+        String finalPlaca = placa;
+        boolean existeActivo = registros.stream()
+                .anyMatch(r ->
+                        r.getPlaca().equalsIgnoreCase(finalPlaca)
+                                && r.getSalida() == null
+                );
+
+        if (existeActivo) {
+            throw new IllegalStateException("Este vehículo ya está registrado y aún no ha salido.");
+        }
+
+        // 4. Leer datos de capacidad
         EspaciosData espaciosData = leerEspacios();
-        int disponibles = espaciosData.totalEspacios - espaciosData.ocupados;
+
+        // 5. Calcular ocupados REALES (solo registros sin salida)
+        long ocupadosReales = registros.stream()
+                .filter(r -> r.getSalida() == null)
+                .count();
+
+        int disponibles = espaciosData.totalEspacios - (int) ocupadosReales;
+
         if (disponibles <= 0) {
             throw new IllegalStateException("No hay espacios disponibles en el parqueadero.");
         }
 
-        // 3. Actualizar espacios ocupados
-        espaciosData.ocupados = espaciosData.ocupados + 1;
-        guardarEspacios(espaciosData);
-
-        // 4. Crear vehículo y registro
-        Vehiculo vehiculo = new Vehiculo(placa.trim().toUpperCase(), tipoVehiculo);
+        // 6. Crear registro
         LocalDateTime ahora = LocalDateTime.now();
 
         Registro registro = new Registro(
-                vehiculo.getPlaca(),
-                vehiculo.getTipoVehiculo(),
+                placa,
+                tipoVehiculo,
                 ahora
         );
 
-        // 5. Persistir en registros.json
-        List<Registro> registros = leerRegistros();
+        // 7. Guardar registro
         registros.add(registro);
         guardarRegistros(registros);
 
+        // 8. Actualizar espacios ocupados (basado en ocupados reales + el nuevo)
+        espaciosData.ocupados = (int) ocupadosReales + 1;
+        guardarEspacios(espaciosData);
+
+        // 9. Retornar registro, controlador mostrará espacios restantes
         return registro;
     }
+
+    public int getEspaciosDisponibles() {
+        EspaciosData data = leerEspacios();
+        List<Registro> registros = leerRegistros();
+
+        long ocupadosReales = registros.stream()
+                .filter(r -> r.getSalida() == null)
+                .count();
+
+        return data.totalEspacios - (int) ocupadosReales;
+    }
+
+
 
     // ---------- Manejo de espacios.json ----------
 
